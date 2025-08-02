@@ -7,6 +7,8 @@ import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerPage;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerScreenRework;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BarWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.EntityViewerWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.PlayerMetaWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.utils.LevelFinder;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import net.minecraft.item.ItemStack;

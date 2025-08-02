@@ -1,4 +1,4 @@
-package de.hysky.skyblocker.skyblock.profileviewer.rework.pages;
+package de.hysky.skyblocker.skyblock.profileviewer.rework.widgets;
 
 import com.mojang.authlib.GameProfile;
 import de.hysky.skyblocker.SkyblockerMod;

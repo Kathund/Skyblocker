@@ -4,6 +4,8 @@ import de.hysky.skyblocker.annotations.Init;
 import de.hysky.skyblocker.skyblock.profileviewer.model.SlayerData;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.*;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BarWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.EntityViewerWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.PlayerMetaWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.SlayerWidget;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import net.minecraft.item.ItemStack;

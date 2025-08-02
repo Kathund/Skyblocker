@@ -4,6 +4,7 @@ import de.hysky.skyblocker.annotations.Init;
 import de.hysky.skyblocker.skyblock.profileviewer.model.SlayerData;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.*;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BarWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.SlayerWidget;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ public class SlayersPage implements ProfileViewerPage {
 
 	public SlayersPage(ProfileLoadState.SuccessfulLoad load) {
 		var slayerData = load.member().slayer;
-		// TODO: Maybe make it's own SlayerWidget
 		List<ProfileViewerWidget> slayers = new ArrayList<>();
 		slayers.add(new BarWidget(SlayerData.Slayer.REVENANT_HORROR.getName(), SlayerData.Slayer.REVENANT_HORROR.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.REVENANT_HORROR), OptionalInt.empty(), OptionalInt.empty()));
 		slayers.add(new BarWidget(SlayerData.Slayer.TARANTULA_BROODFATHER.getName(), SlayerData.Slayer.TARANTULA_BROODFATHER.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.TARANTULA_BROODFATHER), OptionalInt.empty(), OptionalInt.empty()));

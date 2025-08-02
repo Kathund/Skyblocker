@@ -1,4 +1,4 @@
-package de.hysky.skyblocker.skyblock.profileviewer.rework.pages;
+package de.hysky.skyblocker.skyblock.profileviewer.rework.widgets;
 
 import de.hysky.skyblocker.SkyblockerMod;
 import de.hysky.skyblocker.skyblock.profileviewer.model.SlayerBoss;
@@ -14,14 +14,14 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-final class SlayerWidget implements ProfileViewerWidget {
+public final class SlayerWidget implements ProfileViewerWidget {
 	private static final Identifier ICON_DATA_TEXTURE = Identifier.of(SkyblockerMod.NAMESPACE, "textures/gui/profile_viewer/icon_data_widget.png");
 
 	private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 	private final SlayerData.Slayer slayer;
 	private final SlayerBoss slayerData;
 
-	SlayerWidget(
+	public SlayerWidget(
 			SlayerData.Slayer slayer,
 			SlayerBoss slayerData
 	) {

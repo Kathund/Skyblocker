@@ -98,4 +98,5 @@ public class Ico {
 	public static final ItemStack RIFTSTALKER_BLOODFIEND_SKULL = ItemUtils.createSkull(HeadTextures.RIFTSTALKER_BLOODFIEND);
 	public static final ItemStack INFERNO_DEMONLORD_SKULL = ItemUtils.createSkull(HeadTextures.INFERNO_DEMONLORD);
 	public static final ItemStack CATACOMBS_SKULL = ItemUtils.createSkull(HeadTextures.CATACOMBS);
+	public static final ItemStack SKYBLOCK_ICON_SKULL = ItemUtils.createSkull(HeadTextures.SKYBLOCK_ICON);
 }

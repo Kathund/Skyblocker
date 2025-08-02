@@ -3,6 +3,7 @@ package de.hysky.skyblocker.skyblock.profileviewer.model;
 import com.google.gson.annotations.SerializedName;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Formatting;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -67,22 +68,28 @@ public class NetherIslandPlayerData {
 		public int testOfTenacityTime;
 
 		public enum DojoTest {
-			FORCE("Force"),
-			STAMINA("Stamina"),
-			MASTERY("Mastery"),
-			DISCIPLINE("Discipline"),
-			SWIFTNESS("Swiftness"),
-			CONTROL("Control"),
-			TENACITY("Tenacity");
+			FORCE("Force", Formatting.GOLD),
+			STAMINA("Stamina", Formatting.LIGHT_PURPLE),
+			MASTERY("Mastery", Formatting.YELLOW),
+			DISCIPLINE("Discipline", Formatting.RED),
+			SWIFTNESS("Swiftness", Formatting.GREEN),
+			CONTROL("Control", Formatting.BLUE),
+			TENACITY("Tenacity", Formatting.GOLD);
 
 			private final String name;
+			private final Formatting color;
 
-			DojoTest(String name) {
+			DojoTest(String name, Formatting color) {
 				this.name = name;
+				this.color = color;
 			}
 
 			public String getName() {
 				return name;
+			}
+
+			public Formatting getColor() {
+				return color;
 			}
 
 			public int getScore(Dojo dojo) {
@@ -151,19 +158,21 @@ public class NetherIslandPlayerData {
 		}
 
 		public enum Belt {
-			BLACK("Black", 7000),
-			BROWN("Brown", 6000),
-			BLUE("Blue", 4000),
-			GREEN("Green", 2000),
-			YELLOW("Yellow", 1000),
-			WHITE("White", 0);
+			BLACK("Black", 7000, Formatting.BLACK),
+			BROWN("Brown", 6000, Formatting.GOLD),
+			BLUE("Blue", 4000, Formatting.BLUE),
+			GREEN("Green", 2000, Formatting.GREEN),
+			YELLOW("Yellow", 1000, Formatting.YELLOW),
+			WHITE("White", 0, Formatting.WHITE);
 
 			private final String name;
 			private final int minScore;
+			private final Formatting color;
 
-			Belt(String name, int minScore) {
+			Belt(String name, int minScore, Formatting color) {
 				this.name = name;
 				this.minScore = minScore;
+				this.color = color;
 			}
 
 			public String getName() {
@@ -172,6 +181,10 @@ public class NetherIslandPlayerData {
 
 			public int getMinScore() {
 				return minScore;
+			}
+
+			public Formatting getColor() {
+				return color;
 			}
 
 			public static Belt fromScore(int score) {

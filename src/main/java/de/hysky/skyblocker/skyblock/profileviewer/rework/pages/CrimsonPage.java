@@ -11,6 +11,7 @@ import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BoxedTextWidget
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,28 +25,28 @@ public class CrimsonPage implements ProfileViewerPage {
 		List<Text> tiers = new ArrayList<>();
 		// TODO: Add kuudra key icons
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
-			tiers.add(Text.of(tier.getName() + ": " + (tier.getCompletions(crimsonIsleData.kuudraCompletedTiers))));
-			tiers.add(Text.of("Highest Wave: " + (tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers) != 0 ? tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers) : "N/A")));
+			tiers.add(Text.literal(tier.getName() + ": ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(tier.getCompletions(crimsonIsleData.kuudraCompletedTiers)).formatted(Formatting.BLUE))));
+			tiers.add(Text.literal("Highest Wave: ").formatted(Formatting.RED).copy().append(Text.literal(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers) != 0 ? String.valueOf(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers)) : "N/A").formatted(Formatting.WHITE)));
 		}
-		tiers.add(Text.of("Total Runs: " + NetherIslandPlayerData.KuudraCompletedTiers.getTotalCompletions(crimsonIsleData.kuudraCompletedTiers)));
+		tiers.add(Text.literal("Total Runs: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.KuudraCompletedTiers.getTotalCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));
 
 		var tiersWidget = widget(0, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, tiers));
 		widgets.add(tiersWidget);
 		widgets.add(widget(
 				0, tiersWidget.getHeight() + 5, BoxedTextWidget.boxedText(BarWidget.WIDTH,
 						List.of(
-								Text.of("Faction: " + (crimsonIsleData.selectedFaction != null ? crimsonIsleData.selectedFaction : "N/A")),
-								Text.of("Mage Reputation: " + (crimsonIsleData.magesReputation)),
-								Text.of("Barbarian Reputation: " + (crimsonIsleData.barbariansReputation))
+								Text.literal("Faction: ").formatted(Formatting.GREEN).copy().append(crimsonIsleData.selectedFaction != null ? Text.literal(crimsonIsleData.selectedFaction).formatted(crimsonIsleData.selectedFaction.equals("mages") ? Formatting.DARK_PURPLE : Formatting.RED) : Text.literal("N/A").formatted(Formatting.WHITE)),
+								Text.literal("Mage Reputation: ").formatted(Formatting.DARK_PURPLE).copy().append(Text.literal(String.valueOf(crimsonIsleData.magesReputation)).formatted(Formatting.WHITE)),
+								Text.literal("Barbarian Reputation: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(crimsonIsleData.barbariansReputation)).formatted(Formatting.WHITE))
 						))
 		));
 
 		List<Text> dojos = new ArrayList<>();
 		for (NetherIslandPlayerData.Dojo.DojoTest test : NetherIslandPlayerData.Dojo.DojoTest.values()) {
-			dojos.add(Text.of("Test of " + test.getName() + ": " + test.getScore(crimsonIsleData.dojo) + " (" + NetherIslandPlayerData.Dojo.ScoreRank.fromScore(test.getScore(crimsonIsleData.dojo)).name() + ")"));
+			dojos.add(Text.literal("Test of " + test.getName() + ": " + test.getScore(crimsonIsleData.dojo)).formatted(test.getColor()).copy().append(Text.literal(" (" + NetherIslandPlayerData.Dojo.ScoreRank.fromScore(test.getScore(crimsonIsleData.dojo)).name() + ")").formatted(Formatting.WHITE)));
 		}
-		dojos.add(Text.of("Points: " + NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)));
-		dojos.add(Text.of("Belt: " + NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()));
+		dojos.add(Text.of("Points: ").copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo))).formatted(Formatting.GOLD)));
+		dojos.add(Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor())));
 		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, dojos)));
 
 	}

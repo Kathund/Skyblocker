@@ -99,4 +99,10 @@ public class Ico {
 	public static final ItemStack INFERNO_DEMONLORD_SKULL = ItemUtils.createSkull(HeadTextures.INFERNO_DEMONLORD);
 	public static final ItemStack CATACOMBS_SKULL = ItemUtils.createSkull(HeadTextures.CATACOMBS);
 	public static final ItemStack SKYBLOCK_ICON_SKULL = ItemUtils.createSkull(HeadTextures.SKYBLOCK_ICON);
+	public static final ItemStack NETHERRACK = Items.NETHERRACK.getDefaultStack();
+	public static final ItemStack KUUDRA_KEY_SKULL = ItemUtils.createSkull(HeadTextures.KUUDRA_KEY);
+	public static final ItemStack HOT_KUUDRA_KEY_SKULL = ItemUtils.createSkull(HeadTextures.HOT_KUUDRA_KEY);
+	public static final ItemStack BURNING_KUUDRA_KEY_SKULL = ItemUtils.createSkull(HeadTextures.BURNING_KUUDRA_KEY);
+	public static final ItemStack FIERY_KUUDRA_KEY_SKULL = ItemUtils.createSkull(HeadTextures.FIERY_KUUDRA_KEY);
+	public static final ItemStack INFERNAL_KUUDRA_KEY_SKULL = ItemUtils.createSkull(HeadTextures.INFERNAL_KUUDRA_KEY);
 }

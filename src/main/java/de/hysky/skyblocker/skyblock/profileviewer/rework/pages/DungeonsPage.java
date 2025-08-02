@@ -36,7 +36,7 @@ public class DungeonsPage implements ProfileViewerPage {
 		List<BarWidget> classes = new ArrayList<>();
 		for (Dungeons.Class dungeonClass : Dungeons.Class.values()) {
 			String name = dungeonClass.getName();
-			if (dungeonsData.selectedDungeonClass.equals(name.toLowerCase())) name = "§a$name§r";
+			if (dungeonsData.selectedDungeonClass.equals(name.toLowerCase())) name = "§a" + name + "§r";
 
 			classes.add(new BarWidget(name, dungeonClass.getIcon(), dungeonsData.getClassData(dungeonClass).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
 		}

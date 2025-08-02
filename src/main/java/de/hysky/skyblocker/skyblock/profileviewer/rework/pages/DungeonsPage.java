@@ -32,15 +32,14 @@ public class DungeonsPage implements ProfileViewerPage {
 
 	public DungeonsPage(ProfileLoadState.SuccessfulLoad load) {
 		var dungeonsData = load.member().dungeons;
-		widgets.add(
-				widget(0, 0, new BarWidget(PlayerData.Skill.CATACOMBS.getName(), PlayerData.Skill.CATACOMBS.getIcon(), PlayerData.Skill.CATACOMBS.getLevelInfo(dungeonsData.dungeonInfo.catacombs.experience), OptionalInt.empty(), OptionalInt.empty()))
-		);
+		widgets.add(widget(0, 0, new BarWidget(PlayerData.Skill.CATACOMBS.getName(), PlayerData.Skill.CATACOMBS.getIcon(), PlayerData.Skill.CATACOMBS.getLevelInfo(dungeonsData.dungeonInfo.catacombs.experience), OptionalInt.empty(), OptionalInt.empty())));
 		List<BarWidget> classes = new ArrayList<>();
-		classes.add(new BarWidget(dungeonsData.selectedDungeonClass.equals(Dungeons.Class.HEALER.getName().toLowerCase()) ? String.format("§a%s§r", Dungeons.Class.HEALER.getName()) : Dungeons.Class.HEALER.getName(), Dungeons.Class.HEALER.getIcon(), dungeonsData.getClassData(Dungeons.Class.HEALER).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
-		classes.add(new BarWidget(dungeonsData.selectedDungeonClass.equals(Dungeons.Class.MAGE.getName().toLowerCase()) ? String.format("§a%s§r", Dungeons.Class.MAGE.getName()) : Dungeons.Class.MAGE.getName(), Dungeons.Class.MAGE.getIcon(), dungeonsData.getClassData(Dungeons.Class.MAGE).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
-		classes.add(new BarWidget(dungeonsData.selectedDungeonClass.equals(Dungeons.Class.BERSERK.getName().toLowerCase()) ? String.format("§a%s§r", Dungeons.Class.BERSERK.getName()) : Dungeons.Class.BERSERK.getName(), Dungeons.Class.BERSERK.getIcon(), dungeonsData.getClassData(Dungeons.Class.BERSERK).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
-		classes.add(new BarWidget(dungeonsData.selectedDungeonClass.equals(Dungeons.Class.ARCHER.getName().toLowerCase()) ? String.format("§a%s§r", Dungeons.Class.ARCHER.getName()) : Dungeons.Class.ARCHER.getName(), Dungeons.Class.ARCHER.getIcon(), dungeonsData.getClassData(Dungeons.Class.ARCHER).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
-		classes.add(new BarWidget(dungeonsData.selectedDungeonClass.equals(Dungeons.Class.TANK.getName().toLowerCase()) ? String.format("§a%s§r", Dungeons.Class.TANK.getName()) : Dungeons.Class.TANK.getName(), Dungeons.Class.TANK.getIcon(), dungeonsData.getClassData(Dungeons.Class.TANK).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
+		for (Dungeons.Class dungeonClass : Dungeons.Class.values()) {
+			String name = dungeonClass.getName();
+			if (dungeonsData.selectedDungeonClass.equals(name.toLowerCase())) name = "§a$name§r";
+
+			classes.add(new BarWidget(name, dungeonClass.getIcon(), dungeonsData.getClassData(dungeonClass).getLevelInfo(), OptionalInt.empty(), OptionalInt.empty()));
+		}
 
 		LevelFinder.LevelInfo classAverageLevelInfo = new LevelFinder.LevelInfo(0, 0);
 		for (var widget : classes) {

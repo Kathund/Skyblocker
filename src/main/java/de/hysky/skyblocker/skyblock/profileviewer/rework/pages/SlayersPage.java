@@ -18,19 +18,12 @@ public class SlayersPage implements ProfileViewerPage {
 	public SlayersPage(ProfileLoadState.SuccessfulLoad load) {
 		var slayerData = load.member().slayer;
 		List<ProfileViewerWidget> slayers = new ArrayList<>();
-		slayers.add(new BarWidget(SlayerData.Slayer.REVENANT_HORROR.getName(), SlayerData.Slayer.REVENANT_HORROR.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.REVENANT_HORROR), OptionalInt.empty(), OptionalInt.empty()));
-		slayers.add(new BarWidget(SlayerData.Slayer.TARANTULA_BROODFATHER.getName(), SlayerData.Slayer.TARANTULA_BROODFATHER.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.TARANTULA_BROODFATHER), OptionalInt.empty(), OptionalInt.empty()));
-		slayers.add(new BarWidget(SlayerData.Slayer.SVEN_PACKMASTER.getName(), SlayerData.Slayer.SVEN_PACKMASTER.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.SVEN_PACKMASTER), OptionalInt.empty(), OptionalInt.empty()));
-		slayers.add(new BarWidget(SlayerData.Slayer.VOIDGLOOM_SERAPH.getName(), SlayerData.Slayer.VOIDGLOOM_SERAPH.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.VOIDGLOOM_SERAPH), OptionalInt.empty(), OptionalInt.empty()));
-		slayers.add(new BarWidget(SlayerData.Slayer.RIFTSTALKER_BLOODFIEND.getName(), SlayerData.Slayer.RIFTSTALKER_BLOODFIEND.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.RIFTSTALKER_BLOODFIEND), OptionalInt.empty(), OptionalInt.empty()));
-		slayers.add(new BarWidget(SlayerData.Slayer.INFERNO_DEMONLORD.getName(), SlayerData.Slayer.INFERNO_DEMONLORD.getIcon(), slayerData.getSkillLevel(SlayerData.Slayer.INFERNO_DEMONLORD), OptionalInt.empty(), OptionalInt.empty()));
-
-		slayers.add(new SlayerWidget(SlayerData.Slayer.REVENANT_HORROR, slayerData.getSlayerData(SlayerData.Slayer.REVENANT_HORROR)));
-		slayers.add(new SlayerWidget(SlayerData.Slayer.TARANTULA_BROODFATHER, slayerData.getSlayerData(SlayerData.Slayer.TARANTULA_BROODFATHER)));
-		slayers.add(new SlayerWidget(SlayerData.Slayer.SVEN_PACKMASTER, slayerData.getSlayerData(SlayerData.Slayer.SVEN_PACKMASTER)));
-		slayers.add(new SlayerWidget(SlayerData.Slayer.VOIDGLOOM_SERAPH, slayerData.getSlayerData(SlayerData.Slayer.VOIDGLOOM_SERAPH)));
-		slayers.add(new SlayerWidget(SlayerData.Slayer.RIFTSTALKER_BLOODFIEND, slayerData.getSlayerData(SlayerData.Slayer.RIFTSTALKER_BLOODFIEND)));
-		slayers.add(new SlayerWidget(SlayerData.Slayer.INFERNO_DEMONLORD, slayerData.getSlayerData(SlayerData.Slayer.INFERNO_DEMONLORD)));
+		for (SlayerData.Slayer slayer : SlayerData.Slayer.values()) {
+			slayers.add(new BarWidget(slayer.getName(), slayer.getIcon(), slayerData.getSkillLevel(slayer), OptionalInt.empty(), OptionalInt.empty()));
+		}
+		for (SlayerData.Slayer slayer : SlayerData.Slayer.values()) {
+			slayers.add(new SlayerWidget(slayer, slayerData.getSlayerData(slayer)));
+		}
 
 		int i = 0;
 		for (var slayer : slayers) {

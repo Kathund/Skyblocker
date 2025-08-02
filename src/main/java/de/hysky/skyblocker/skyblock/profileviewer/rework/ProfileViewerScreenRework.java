@@ -38,7 +38,7 @@ public class ProfileViewerScreenRework extends Screen {
 	/**
 	 * Convention of whether to use text shadow in pv draw calls.
 	 */
-	public static final boolean TEXT_SHADOW = false;
+	public static final boolean TEXT_SHADOW = true;
 	public static final List<Function<ProfileLoadState.SuccessfulLoad, ProfileViewerPage>> PAGE_CONSTRUCTORS =
 			new ArrayList<>();
 

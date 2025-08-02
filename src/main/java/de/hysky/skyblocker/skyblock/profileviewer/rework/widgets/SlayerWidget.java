@@ -3,6 +3,7 @@ package de.hysky.skyblocker.skyblock.profileviewer.rework.widgets;
 import de.hysky.skyblocker.SkyblockerMod;
 import de.hysky.skyblocker.skyblock.profileviewer.model.SlayerBoss;
 import de.hysky.skyblocker.skyblock.profileviewer.model.SlayerData;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerScreenRework;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -37,8 +38,8 @@ public final class SlayerWidget implements ProfileViewerWidget {
 					   int x, int y, int mouseX, int mouseY, float deltaTicks) {
 		drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, ICON_DATA_TEXTURE, x, y, 0, 0, WIDTH, HEIGHT, WIDTH, HEIGHT);
 		drawContext.drawItem(slayer.getDropIcon(), x + 3, y + 5);
-		drawContext.drawText(textRenderer, "§aKills: §r" + slayerData.getTotalBossKills(), x + 31, y + 4, -1, false);
-		drawContext.drawText(textRenderer, slayerData.getTierWithMostKills() == -1 ? "No Data" : "§cT" + (slayerData.getTierWithMostKills() + 1) + " Kills: §r" + slayerData.getBossKillsByZeroIndexedTier(slayerData.getTierWithMostKills()), x + 31, y + 14, -1, false);
+		drawContext.drawText(textRenderer, "§aKills: §r" + slayerData.getTotalBossKills(), x + 31, y + 4, -1, ProfileViewerScreenRework.TEXT_SHADOW);
+		drawContext.drawText(textRenderer, slayerData.getTierWithMostKills() == -1 ? "No Data" : "§cT" + (slayerData.getTierWithMostKills() + 1) + " Kills: §r" + slayerData.getBossKillsByZeroIndexedTier(slayerData.getTierWithMostKills()), x + 31, y + 14, -1, ProfileViewerScreenRework.TEXT_SHADOW);
 
 		// TODO: add helper for hover selection
 		if (mouseX > x + 30 && mouseX < x + 105 && mouseY > y + 14 && mouseY < y + 21) {

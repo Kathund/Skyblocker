@@ -82,7 +82,7 @@ public class ProfileViewerScreenRework extends Screen {
 			buttons.add(new ProfileViewerNavButton(ignored -> setSelectedPage(finalI), page.getName(), page.getIcon(), i, false));
 		}
 		// TODO: Move to bottom
-		buttons.add(new ProfileViewerNavButton(ignored -> openSkyCrypt(), "SkyCrypt", Ico.SKYBLOCK_ICON_SKULL, buttons.size(), false));
+		if (buttons.size() > 1) buttons.add(new ProfileViewerNavButton(ignored -> openSkyCrypt(), "SkyCrypt", Ico.SKYBLOCK_ICON_SKULL, buttons.size(), false));
 		setSelectedPage(0);
 	}
 

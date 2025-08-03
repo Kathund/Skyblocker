@@ -25,7 +25,7 @@ public class CrimsonPage implements ProfileViewerPage {
 		List<Text> tiers = new ArrayList<>();
 		// TODO: Add kuudra key icons
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
-			tiers.add(Text.literal(tier.getName() + ": ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(tier.getCompletions(crimsonIsleData.kuudraCompletedTiers)).formatted(Formatting.BLUE))));
+			tiers.add(Text.literal(tier.getName() + ": ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(tier.getCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));
 			tiers.add(Text.literal("Highest Wave: ").formatted(Formatting.RED).copy().append(Text.literal(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers) != 0 ? String.valueOf(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers)) : "N/A").formatted(Formatting.WHITE)));
 		}
 		tiers.add(Text.literal("Total Runs: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.KuudraCompletedTiers.getTotalCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));

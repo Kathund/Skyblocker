@@ -8,7 +8,9 @@ import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerScreenRewo
 import de.hysky.skyblocker.skyblock.profileviewer.rework.ProfileViewerWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BarWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BoxedTextWidget;
+import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.ItemWidget;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -30,8 +32,15 @@ public class CrimsonPage implements ProfileViewerPage {
 		}
 		tiers.add(Text.literal("Total Runs: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.KuudraCompletedTiers.getTotalCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));
 
-		var tiersWidget = widget(0, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, tiers));
+		var tiersWidget = widget(0, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH + ItemWidget.WIDTH, tiers, ItemWidget.WIDTH));
 		widgets.add(tiersWidget);
+
+		int tierIndex = 0;
+		var textRenderer = MinecraftClient.getInstance().textRenderer;
+		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
+			widgets.add(widget(0,  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(tier.getIcon(), false)));
+			tierIndex++;
+		}
 		widgets.add(widget(
 				0, tiersWidget.getHeight() + 5, BoxedTextWidget.boxedText(BarWidget.WIDTH,
 						List.of(
@@ -47,7 +56,9 @@ public class CrimsonPage implements ProfileViewerPage {
 		}
 		dojos.add(Text.of("Points: ").copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo))).formatted(Formatting.GOLD)));
 		dojos.add(Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor())));
-		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, dojos)));
+		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5 + ItemWidget.WIDTH, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, dojos)));
+
+//		widgets.add(widget(0, 0, new ItemWidget(NetherIslandPlayerData.KuudraCompletedTiers.Tier.HOT.getIcon(), true)));
 
 	}
 

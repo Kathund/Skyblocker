@@ -25,7 +25,6 @@ public class CrimsonPage implements ProfileViewerPage {
 	public CrimsonPage(ProfileLoadState.SuccessfulLoad load) {
 		var crimsonIsleData = load.member().netherIslandPlayerData;
 		List<Text> tiers = new ArrayList<>();
-		// TODO: Add kuudra key icons
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
 			tiers.add(Text.literal(tier.getName() + ": ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(tier.getCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));
 			tiers.add(Text.literal("Highest Wave: ").formatted(Formatting.RED).copy().append(Text.literal(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers) != 0 ? String.valueOf(tier.getHighestWave(crimsonIsleData.kuudraCompletedTiers)) : "N/A").formatted(Formatting.WHITE)));
@@ -38,7 +37,7 @@ public class CrimsonPage implements ProfileViewerPage {
 		int tierIndex = 0;
 		var textRenderer = MinecraftClient.getInstance().textRenderer;
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
-			widgets.add(widget(0,  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(tier.getIcon(), false)));
+			widgets.add(widget(0,  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(tier.getIcon(), false, 1f)));
 			tierIndex++;
 		}
 		widgets.add(widget(
@@ -57,8 +56,6 @@ public class CrimsonPage implements ProfileViewerPage {
 		dojos.add(Text.of("Points: ").copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo))).formatted(Formatting.GOLD)));
 		dojos.add(Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor())));
 		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5 + ItemWidget.WIDTH, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, dojos)));
-
-//		widgets.add(widget(0, 0, new ItemWidget(NetherIslandPlayerData.KuudraCompletedTiers.Tier.HOT.getIcon(), true)));
 
 	}
 

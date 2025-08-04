@@ -53,7 +53,14 @@ public class MiningCore {
 		public CrystalData onyx = new CrystalData();
 		@SerializedName("citrine_crystal")
 		public CrystalData citrine = new CrystalData();
-
+		public static int getNucleusRuns(Crystals crystals) {
+			int small = 0;
+			for (Crystals.Crystal crystal : Crystals.Crystal.values()) {
+				int totalPlaced = crystal.getTotalPlaced(crystals);
+				if (totalPlaced > small && totalPlaced > 1) small = totalPlaced;
+			}
+			return small;
+		}
 		public static class CrystalData {
 			@SerializedName("state")
 			public String state;
@@ -113,6 +120,23 @@ public class MiningCore {
 					case AQUAMARINE -> crystals.aquamarine.state.equals("FOUND");
 					case CITRINE -> crystals.citrine.state.equals("FOUND");
 					case PERIDOT -> crystals.peridot.state.equals("FOUND");
+				};
+			}
+
+			public int getTotalPlaced(Crystals crystals) {
+				return switch (this) {
+					case JADE -> crystals.jade.totalPlaced;
+					case AMBER -> crystals.amber.totalPlaced;
+					case TOPAZ -> crystals.topaz.totalPlaced;
+					case SAPPHIRE -> crystals.sapphire.totalPlaced;
+					case AMETHYST -> crystals.amethyst.totalPlaced;
+					case JASPER -> crystals.jasper.totalPlaced;
+					case RUBY -> crystals.ruby.totalPlaced;
+					case OPAL -> crystals.opal.totalPlaced;
+					case ONYX -> crystals.onyx.totalPlaced;
+					case AQUAMARINE -> crystals.aquamarine.totalPlaced;
+					case CITRINE -> crystals.citrine.totalPlaced;
+					case PERIDOT -> crystals.peridot.totalPlaced;
 				};
 			}
 		}

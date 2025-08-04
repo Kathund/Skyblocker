@@ -14,6 +14,7 @@ import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import de.hysky.skyblocker.utils.TextUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -41,7 +42,6 @@ public class MiningPage implements ProfileViewerPage {
 			widgets.add(widget(0, ((textRenderer.fontHeight + 5) * crystalIndex) - 3, new ItemWidget(crystal.getIcon(), false, 0.85f)));
 			crystalIndex++;
 		}
-
 		List<Text> powderText = new ArrayList<>();
 		for (MiningCore.Powder powder : MiningCore.Powder.values()) {
 			powderText.add(Text.literal(powder.getName() + " Powder : ").formatted(powder.getColor()).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(powder.getPowder(miningData))).formatted(Formatting.WHITE)));
@@ -54,10 +54,15 @@ public class MiningPage implements ProfileViewerPage {
 			widgets.add(widget(powderWidget.getX(),  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(powder.getIcon(), false, 1f)));
 			tierIndex++;
 		}
-
+		var miscDataWidget = widget(crystalsWidget.getWidth() + 5, powderWidget.getHeight() + 5, BoxedTextWidget.boxedText((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
+				List.of(
+						Text.literal("Nucleus Runs Completed: " + MiningCore.Crystals.getNucleusRuns(miningData.crystals)).setStyle(Style.EMPTY.withColor(0xff538e))
+				))
+		);
+		widgets.add(miscDataWidget);
 		var glaciteData = load.member().glacitePlayerData;
 		var glaciteWidget = widget(
-				crystalsWidget.getWidth() + 5, powderWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
+				crystalsWidget.getWidth() + 5, miscDataWidget.getY() + miscDataWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
 						List.of(
 								BoxedTextWidget.hover(
 										Text.literal("Mineshafts Entered: " + glaciteData.mineshaftsEntered),

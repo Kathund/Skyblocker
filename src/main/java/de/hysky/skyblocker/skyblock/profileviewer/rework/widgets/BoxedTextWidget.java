@@ -45,6 +45,10 @@ public class BoxedTextWidget implements ProfileViewerWidget {
 		return boxedTextWithHover(width, textLines, 0, 0);
 	}
 
+	public static BoxedTextWidget boxedTextWithHover(int width, List<TextWithHover> textLines, int textLeftPadding) {
+		return boxedTextWithHover(width, textLines, textLeftPadding, 0);
+	}
+
 	public static BoxedTextWidget boxedTextWithHover(int width, List<TextWithHover> textLines, int textLeftPadding, int extraLineGap) {
 		var textRenderer = MinecraftClient.getInstance().textRenderer;
 		return new BoxedTextWidget(width + 2 * PADDING, (textRenderer.fontHeight + (GAP + extraLineGap)) * textLines.size() - (GAP + extraLineGap) + 2 * PADDING, textLines, textRenderer, textLeftPadding, extraLineGap);

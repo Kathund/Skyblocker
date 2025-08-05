@@ -10,6 +10,7 @@ import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BarWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.BoxedTextWidget;
 import de.hysky.skyblocker.skyblock.profileviewer.rework.widgets.ItemWidget;
 import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
+import de.hysky.skyblocker.utils.TextUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -17,6 +18,9 @@ import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.hysky.skyblocker.utils.Formatters.INTEGER_NUMBERS;
+import static de.hysky.skyblocker.utils.Formatters.SHORT_INTEGER_NUMBERS;
 
 public class CrimsonPage implements ProfileViewerPage {
 
@@ -41,21 +45,51 @@ public class CrimsonPage implements ProfileViewerPage {
 			tierIndex++;
 		}
 		widgets.add(widget(
-				0, tiersWidget.getHeight() + 5, BoxedTextWidget.boxedText(BarWidget.WIDTH,
+				0, tiersWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover(tiersWidget.getWidth(),
 						List.of(
-								Text.literal("Faction: ").formatted(Formatting.GREEN).copy().append(crimsonIsleData.selectedFaction != null ? Text.literal(crimsonIsleData.selectedFaction).formatted(crimsonIsleData.selectedFaction.equals("mages") ? Formatting.DARK_PURPLE : Formatting.RED) : Text.literal("N/A").formatted(Formatting.WHITE)),
-								Text.literal("Mage Reputation: ").formatted(Formatting.DARK_PURPLE).copy().append(Text.literal(String.valueOf(crimsonIsleData.magesReputation)).formatted(Formatting.WHITE)),
-								Text.literal("Barbarian Reputation: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(crimsonIsleData.barbariansReputation)).formatted(Formatting.WHITE))
+								BoxedTextWidget.nohover(
+										Text.literal("Faction: ").formatted(Formatting.GREEN).copy().append(crimsonIsleData.selectedFaction != null ? Text.literal(TextUtils.titleCase(crimsonIsleData.selectedFaction)).formatted(crimsonIsleData.selectedFaction.equals("mages") ? Formatting.DARK_PURPLE : Formatting.RED) : Text.literal("N/A").formatted(Formatting.WHITE))
+								),
+								BoxedTextWidget.hover(
+										Text.literal("Mage Reputation: ").formatted(Formatting.DARK_PURPLE).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.magesReputation)).formatted(Formatting.WHITE)),
+										List.of(
+												Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.magesReputation))
+										)
+								),
+								BoxedTextWidget.hover(
+										Text.literal("Barbarian Reputation: ").formatted(Formatting.RED).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation)).formatted(Formatting.WHITE)),
+										List.of(
+												Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation))
+										)
+								)
 						))
 		));
 
-		List<Text> dojos = new ArrayList<>();
+		List<BoxedTextWidget.TextWithHover> dojos = new ArrayList<>();
 		for (NetherIslandPlayerData.Dojo.DojoTest test : NetherIslandPlayerData.Dojo.DojoTest.values()) {
-			dojos.add(Text.literal("Test of " + test.getName() + ": " + test.getScore(crimsonIsleData.dojo)).formatted(test.getColor()).copy().append(Text.literal(" (" + NetherIslandPlayerData.Dojo.ScoreRank.fromScore(test.getScore(crimsonIsleData.dojo)).name() + ")").formatted(Formatting.WHITE)));
+			dojos.add(
+					BoxedTextWidget.hover(
+							Text.literal("Test of " + test.getName() + ": " + SHORT_INTEGER_NUMBERS.format(test.getScore(crimsonIsleData.dojo))).formatted(test.getColor()).copy().append(Text.literal(" (" + NetherIslandPlayerData.Dojo.ScoreRank.fromScore(test.getScore(crimsonIsleData.dojo)).name() + ")").formatted(Formatting.WHITE)),
+							List.of(
+									Text.literal(INTEGER_NUMBERS.format(test.getScore(crimsonIsleData.dojo)))
+							)
+					)
+			);
 		}
-		dojos.add(Text.of("Points: ").copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo))).formatted(Formatting.GOLD)));
-		dojos.add(Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor())));
-		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5 + ItemWidget.WIDTH, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH, dojos)));
+		dojos.add(
+				BoxedTextWidget.hover(
+						Text.of("Points: ").copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo))).formatted(Formatting.GOLD)),
+						List.of(
+								Text.literal(INTEGER_NUMBERS.format(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)))
+						)
+				)
+		);
+		dojos.add(
+				BoxedTextWidget.nohover(
+						Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor()))
+				)
+		);
+		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5 + ItemWidget.WIDTH, 0, BoxedTextWidget.boxedTextWithHover(BarWidget.WIDTH, dojos)));
 
 	}
 

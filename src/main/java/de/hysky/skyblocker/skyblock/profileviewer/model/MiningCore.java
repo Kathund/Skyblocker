@@ -69,7 +69,6 @@ public class MiningCore {
 			@SerializedName("total_found")
 			public int totalFound;
 		}
-
 		public enum Crystal {
 			JADE("Jade", Ico.PERFECT_JADE_SKULL, Formatting.GREEN),
 			AMBER("Amber", Ico.PERFECT_AMBER_SKULL, Formatting.GOLD),

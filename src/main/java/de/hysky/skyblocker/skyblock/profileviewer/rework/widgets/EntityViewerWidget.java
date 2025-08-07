@@ -25,33 +25,19 @@ public class EntityViewerWidget implements ProfileViewerWidget {
 
 	public static final Identifier BACKGROUND = Identifier.of(SkyblockerMod.NAMESPACE, "textures/gui/profile_viewer/entity_widget.png");
 	public static final int WIDTH = 82, HEIGHT = 110, SCALE = 2;
-	public enum Devs {
-		NEA(List.of(UUID.fromString("d3cb85e2-3075-48a1-b213-a9bfb62360c1"), UUID.fromString("842204e6-6880-487b-ae5a-0595394f9948")), Color.decode("#4A412A")),
-		KATH(List.of(UUID.fromString("add71246-c46e-455c-8345-c129ea6f146c"), UUID.fromString("b491990d-53fd-4c5f-a61e-19d58cc7eddf")), Color.PINK),
-		JANI(List.of(UUID.fromString("8a9f1841-48e9-48ed-b14f-76a124e6c9df")), Color.GREEN),
-		AARON(List.of(UUID.fromString("ed3b9805-117c-47f7-80df-d05120f1d4a3")), Color.GREEN),
-		VIC(List.of(UUID.fromString("647ffd4c-f99c-4b06-a8f8-66cf1a587e57")), Color.GREEN),
-		KEVINTHEGREAT(List.of(UUID.fromString("28657546-de5f-4eaf-993d-1b06ee28d129")), Color.GREEN),
-		WOHLHABEND(List.of(UUID.fromString("e079840c-50fa-464d-8041-c6716a5253fc")), Color.GREEN),
-		OLIM88(List.of(UUID.fromString("80e3b708-0df7-4d91-8f84-d43f438a3e81")), Color.GREEN),
-		RIMEORREASON(List.of(UUID.fromString("6b1b3977-6a82-4880-9086-b67b0e872aac")), Color.decode("#cba6f7"));
-
-		private final List<UUID> uuids;
-		private final Color color;
-
-		Devs(List<UUID> uuids, Color color) {
-			this.uuids = uuids;
-			this.color = color;
-		}
-
-		public List<UUID> getUUIDs() {
-			return uuids;
-		}
-
-		public Color getColor() {
-			return color;
-		}
-	}
+	public static final List<UUID> Devs = List.of(
+			UUID.fromString("d3cb85e2-3075-48a1-b213-a9bfb62360c1"),
+			UUID.fromString("842204e6-6880-487b-ae5a-0595394f9948"),
+			UUID.fromString("add71246-c46e-455c-8345-c129ea6f146c"),
+			UUID.fromString("b491990d-53fd-4c5f-a61e-19d58cc7eddf"),
+			UUID.fromString("8a9f1841-48e9-48ed-b14f-76a124e6c9df"),
+			UUID.fromString("ed3b9805-117c-47f7-80df-d05120f1d4a3"),
+			UUID.fromString("647ffd4c-f99c-4b06-a8f8-66cf1a587e57"),
+			UUID.fromString("28657546-de5f-4eaf-993d-1b06ee28d129"),
+			UUID.fromString("e079840c-50fa-464d-8041-c6716a5253fc"),
+			UUID.fromString("80e3b708-0df7-4d91-8f84-d43f438a3e81"),
+			UUID.fromString("6b1b3977-6a82-4880-9086-b67b0e872aac")
+	);
 
 	sealed interface LoadedEntity {
 		record Success(GameProfile profile, OtherClientPlayerEntity entity) implements LoadedEntity {
@@ -112,15 +98,26 @@ public class EntityViewerWidget implements ProfileViewerWidget {
 			}
 			case LoadedEntity.Success success -> {
 				var username = success.name();
-				Devs currentDev = null;
-				for (Devs dev : Devs.values()) {
-					if (dev.getUUIDs().contains(success.entity.getUuid())) {
-						currentDev = dev;
-						break;
-					}
-				}
-				InventoryScreen.drawEntity(drawContext, x, y + 16, x + WIDTH, y + (HEIGHT * (currentDev != null ? (SCALE / 2) : 1)), 42 / (currentDev != null ? SCALE : 1), 0.0625F, mouseX, mouseY, success.entity);
-				drawContext.drawCenteredTextWithShadow(textRenderer, username.length() > 15 ? username.substring(0, 15) : username, x + 40, y + (14 * (currentDev != null ? SCALE : 1)), (currentDev != null ? currentDev.getColor() : Color.WHITE).getRGB());
+				boolean isDev = Devs.contains(success.entity.getUuid());
+				InventoryScreen.drawEntity(
+						drawContext,
+						x,
+						y + 16,
+						x + WIDTH,
+						y + (HEIGHT * (isDev ? (SCALE / 2) : 1)),
+						42 / (isDev ? SCALE : 1),
+						0.0625F,
+						mouseX,
+						mouseY,
+						success.entity
+				);
+				drawContext.drawCenteredTextWithShadow(
+						textRenderer,
+						username.length() > 15 ? username.substring(0, 15) : username,
+						x + 40,
+						y + (14 * (isDev ? SCALE : 1)),
+						Color.WHITE.getRGB()
+				);
 			}
 		}
 	}

@@ -27,6 +27,7 @@ public class CrimsonPage implements ProfileViewerPage {
 	List<ProfileViewerWidget.Instance> widgets = new ArrayList<>();
 
 	public CrimsonPage(ProfileLoadState.SuccessfulLoad load) {
+		int column1 = calculateX();
 		var crimsonIsleData = load.member().netherIslandPlayerData;
 		List<Text> tiers = new ArrayList<>();
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
@@ -35,35 +36,37 @@ public class CrimsonPage implements ProfileViewerPage {
 		}
 		tiers.add(Text.literal("Total Runs: ").formatted(Formatting.RED).copy().append(Text.literal(String.valueOf(NetherIslandPlayerData.KuudraCompletedTiers.getTotalCompletions(crimsonIsleData.kuudraCompletedTiers))).formatted(Formatting.WHITE)));
 
-		var tiersWidget = widget(0, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH + ItemWidget.WIDTH, tiers, ItemWidget.WIDTH));
+		var tiersWidget = widget(column1, 0, BoxedTextWidget.boxedText(BarWidget.WIDTH + ItemWidget.WIDTH, tiers, ItemWidget.WIDTH));
 		widgets.add(tiersWidget);
 
 		int tierIndex = 0;
 		var textRenderer = MinecraftClient.getInstance().textRenderer;
 		for (NetherIslandPlayerData.KuudraCompletedTiers.Tier tier : NetherIslandPlayerData.KuudraCompletedTiers.Tier.values()) {
-			widgets.add(widget(0,  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(tier.getIcon(), false, 1f)));
+			widgets.add(widget(column1,  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(tier.getIcon(), false, 1f)));
 			tierIndex++;
 		}
-		widgets.add(widget(
-				0, tiersWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover(tiersWidget.getWidth(),
-						List.of(
-								BoxedTextWidget.nohover(
-										Text.literal("Faction: ").formatted(Formatting.GREEN).copy().append(crimsonIsleData.selectedFaction != null ? Text.literal(TextUtils.titleCase(crimsonIsleData.selectedFaction)).formatted(crimsonIsleData.selectedFaction.equals("mages") ? Formatting.DARK_PURPLE : Formatting.RED) : Text.literal("N/A").formatted(Formatting.WHITE))
-								),
-								BoxedTextWidget.hover(
-										Text.literal("Mage Reputation: ").formatted(Formatting.DARK_PURPLE).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.magesReputation)).formatted(Formatting.WHITE)),
-										List.of(
-												Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.magesReputation))
-										)
-								),
-								BoxedTextWidget.hover(
-										Text.literal("Barbarian Reputation: ").formatted(Formatting.RED).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation)).formatted(Formatting.WHITE)),
-										List.of(
-												Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation))
-										)
+
+		int column2 = calculateX() + ProfileViewerScreenRework.GAP;
+		var factionsWidget = widget(column2, 0, BoxedTextWidget.boxedTextWithHover(ProfileViewerScreenRework.PAGE_WIDTH - column2 - ProfileViewerScreenRework.GAP,
+				List.of(
+						BoxedTextWidget.nohover(
+								Text.literal("Faction: ").formatted(Formatting.GREEN).copy().append(crimsonIsleData.selectedFaction != null ? Text.literal(TextUtils.titleCase(crimsonIsleData.selectedFaction)).formatted(crimsonIsleData.selectedFaction.equals("mages") ? Formatting.DARK_PURPLE : Formatting.RED) : Text.literal("N/A").formatted(Formatting.WHITE))
+						),
+						BoxedTextWidget.hover(
+								Text.literal("Mage Reputation: ").formatted(Formatting.DARK_PURPLE).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.magesReputation)).formatted(Formatting.WHITE)),
+								List.of(
+										Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.magesReputation))
 								)
-						))
-		));
+						),
+						BoxedTextWidget.hover(
+								Text.literal("Barbarian Reputation: ").formatted(Formatting.RED).copy().append(Text.literal(SHORT_INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation)).formatted(Formatting.WHITE)),
+								List.of(
+										Text.literal(INTEGER_NUMBERS.format(crimsonIsleData.barbariansReputation))
+								)
+						)
+				))
+		);
+		widgets.add(factionsWidget);
 
 		List<BoxedTextWidget.TextWithHover> dojos = new ArrayList<>();
 		for (NetherIslandPlayerData.Dojo.DojoTest test : NetherIslandPlayerData.Dojo.DojoTest.values()) {
@@ -89,7 +92,7 @@ public class CrimsonPage implements ProfileViewerPage {
 						Text.of("Belt: ").copy().append(Text.literal(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getName()).formatted(NetherIslandPlayerData.Dojo.Belt.fromScore(NetherIslandPlayerData.Dojo.getTotalScore(crimsonIsleData.dojo)).getColor()))
 				)
 		);
-		widgets.add(widget(BoxedTextWidget.PADDING + BarWidget.WIDTH + 5 + ItemWidget.WIDTH, 0, BoxedTextWidget.boxedTextWithHover(BarWidget.WIDTH, dojos)));
+		widgets.add(widget(column2, factionsWidget.getY() + factionsWidget.getHeight() + ProfileViewerScreenRework.GAP, BoxedTextWidget.boxedTextWithHover(factionsWidget.getWidth() - ProfileViewerScreenRework.GAP, dojos)));
 
 	}
 

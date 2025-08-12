@@ -14,7 +14,6 @@ import de.hysky.skyblocker.skyblock.tabhud.util.Ico;
 import de.hysky.skyblocker.utils.TextUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -40,7 +39,7 @@ public class MiningPage implements ProfileViewerPage {
 		var textRenderer = MinecraftClient.getInstance().textRenderer;
 		// Please never let me work on this again. I spent 5 FUCKING HOURS TRYYING TO MAKE IT LOOK GOOD PLEASE END ME - Kath
 		for (MiningCore.Crystals.Crystal crystal : MiningCore.Crystals.Crystal.values()) {
-			widgets.add(widget(0, ((textRenderer.fontHeight + 5) * crystalIndex) - 3, new ItemWidget(crystal.getIcon(), false, 0.85f)));
+			widgets.add(widget(0, ((textRenderer.fontHeight + ProfileViewerScreenRework.GAP) * crystalIndex) - 3, new ItemWidget(crystal.getIcon(), false, 0.85f)));
 			crystalIndex++;
 		}
 		List<BoxedTextWidget.TextWithHover> powderText = new ArrayList<>();
@@ -62,14 +61,14 @@ public class MiningPage implements ProfileViewerPage {
 					)
 			);
  		}
-		var powderWidget = widget(crystalsWidget.getWidth() + 5, 0, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10, powderText, ItemWidget.WIDTH));
+		var powderWidget = widget(crystalsWidget.getWidth() + ProfileViewerScreenRework.GAP, 0, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10, powderText, ItemWidget.WIDTH));
 		widgets.add(powderWidget);
 		int tierIndex = 0;
 		for (MiningCore.Powder powder : MiningCore.Powder.values()) {
 			widgets.add(widget(powderWidget.getX(),  ((textRenderer.fontHeight * 2) + 2) * tierIndex, new ItemWidget(powder.getIcon(), false, 1f)));
 			tierIndex++;
 		}
-		var miscDataWidget = widget(crystalsWidget.getWidth() + 5, powderWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
+		var miscDataWidget = widget(crystalsWidget.getWidth() + ProfileViewerScreenRework.GAP, powderWidget.getHeight() + ProfileViewerScreenRework.GAP, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
 				List.of(
 						BoxedTextWidget.hover(
 								Text.literal("Nucleus Runs Completed: " + SHORT_INTEGER_NUMBERS.format(MiningCore.Crystals.getNucleusRuns(miningData.crystals))),
@@ -82,7 +81,7 @@ public class MiningPage implements ProfileViewerPage {
 		widgets.add(miscDataWidget);
 		var glaciteData = load.member().glacitePlayerData;
 		var glaciteWidget = widget(
-				crystalsWidget.getWidth() + 5, miscDataWidget.getY() + miscDataWidget.getHeight() + 5, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
+				crystalsWidget.getWidth() + ProfileViewerScreenRework.GAP, miscDataWidget.getY() + miscDataWidget.getHeight() + ProfileViewerScreenRework.GAP, BoxedTextWidget.boxedTextWithHover((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10,
 						List.of(
 								BoxedTextWidget.hover(
 										Text.literal("Mineshafts Entered: " + SHORT_INTEGER_NUMBERS.format(glaciteData.mineshaftsEntered)),
@@ -121,9 +120,9 @@ public class MiningPage implements ProfileViewerPage {
 				fossilTextHalf.add(fossilEntry);
 			}
 		}
-		var fossilTextWidget = widget(crystalsWidget.getWidth() + 5, glaciteWidget.getY() + glaciteWidget.getHeight() + 5, BoxedTextWidget.boxedText((((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10) / 2) - 5, fossilText));
+		var fossilTextWidget = widget(crystalsWidget.getWidth() + ProfileViewerScreenRework.GAP, glaciteWidget.getY() + glaciteWidget.getHeight() + ProfileViewerScreenRework.GAP, BoxedTextWidget.boxedText((((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10) / 2) - ProfileViewerScreenRework.GAP, fossilText));
 		widgets.add(fossilTextWidget);
-		widgets.add(widget((crystalsWidget.getWidth() + 5) + (fossilTextWidget.getWidth() + 5), glaciteWidget.getY() + glaciteWidget.getHeight() + 5, BoxedTextWidget.boxedText((((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10) / 2) - 5, fossilTextHalf)));
+		widgets.add(widget((crystalsWidget.getWidth() + ProfileViewerScreenRework.GAP) + (fossilTextWidget.getWidth() + ProfileViewerScreenRework.GAP), glaciteWidget.getY() + glaciteWidget.getHeight() + ProfileViewerScreenRework.GAP, BoxedTextWidget.boxedText((((ProfileViewerScreenRework.PAGE_WIDTH - crystalsWidget.getWidth()) - 10) / 2) - ProfileViewerScreenRework.GAP, fossilTextHalf)));
 }
 
 	@Init

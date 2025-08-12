@@ -18,26 +18,27 @@ public class SlayersPage implements ProfileViewerPage {
 	List<ProfileViewerWidget.Instance> widgets = new ArrayList<>();
 
 	public SlayersPage(ProfileLoadState.SuccessfulLoad load) {
+		var playerWidget = widget(0, 0, new EntityViewerWidget(load.mainMemberId()));
+		widgets.add(playerWidget);
+		var playerStatsWidget = widget(0, playerWidget.getY() + playerWidget.getHeight() + ProfileViewerScreenRework.GAP, new PlayerMetaWidget(load));
+		widgets.add(playerStatsWidget);
 		var slayerData = load.member().slayer;
-		List<ProfileViewerWidget> slayers = new ArrayList<>();
+		List<ProfileViewerWidget> slayerWidgets = new ArrayList<>();
 		for (SlayerData.Slayer slayer : SlayerData.Slayer.values()) {
-			slayers.add(new BarWidget(slayer.getName(), slayer.getIcon(), slayerData.getSkillLevel(slayer), OptionalInt.empty(), OptionalInt.empty()));
+			slayerWidgets.add(new BarWidget(slayer.getName(), slayer.getIcon(), slayerData.getSkillLevel(slayer), OptionalInt.empty(), OptionalInt.empty()));
 		}
 		for (SlayerData.Slayer slayer : SlayerData.Slayer.values()) {
-			slayers.add(new SlayerWidget(slayer, slayerData.getSlayerData(slayer)));
+			slayerWidgets.add(new SlayerWidget(slayer, slayerData.getSlayerData(slayer)));
 		}
 
-		int i = 0;
-		for (var slayer : slayers) {
-			int x = i < 6 ? 88 : 88 + 113;
-			int y = (i % 6) * (2 + 26);
-			i++;
-			widgets.add(widget(
-					x, y, slayer
-			));
+		int skillIndex = 0;
+		int defaultSlayerX = calculateX();
+		for (var widget : slayerWidgets) {
+			int x = (skillIndex < 6 ? 0 : widget.getWidth() + ProfileViewerScreenRework.GAP) + ProfileViewerScreenRework.GAP;
+			int y = (skillIndex % 6) * (2 + widget.getHeight());
+			widgets.add(widget(defaultSlayerX + x, y, widget));
+			skillIndex++;
 		}
-		widgets.add(widget(0, 0, new EntityViewerWidget(load.mainMemberId())));
-		widgets.add(widget(0, 112, new PlayerMetaWidget(load)));
 	}
 
 	@Init

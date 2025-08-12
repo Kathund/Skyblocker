@@ -20,7 +20,6 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -175,6 +174,7 @@ public class ProfileViewerScreenRework extends Screen {
 	public static final int PAGE_WIDTH = GUI_WIDTH - 10;
 	private static final int GUI_HEIGHT = 180;
 	public static final int PAGE_HEIGHT = GUI_HEIGHT - 10;
+	public static final int GAP = 5;
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {

@@ -22,8 +22,12 @@ public class SkillsPage implements ProfileViewerPage {
 	List<ProfileViewerWidget.Instance> widgets = new ArrayList<>();
 
 	public SkillsPage(ProfileLoadState.SuccessfulLoad load) {
+		var playerWidget = widget(0, 0, new EntityViewerWidget(load.mainMemberId()));
+		widgets.add(playerWidget);
+		var playerStatsWidget = widget(0, playerWidget.getY() + playerWidget.getHeight() + ProfileViewerScreenRework.GAP, new PlayerMetaWidget(load));
+		widgets.add(playerStatsWidget);
 		var playerData = load.member().playerData;
-		List<ProfileViewerWidget> skills = new ArrayList<>();
+		List<ProfileViewerWidget> skillsWidgets = new ArrayList<>();
 		for (PlayerData.Skill skill : PlayerData.Skill.values()) {
 			OptionalInt max = OptionalInt.empty();
 
@@ -39,20 +43,17 @@ public class SkillsPage implements ProfileViewerPage {
 				levelInfo = PlayerData.Skill.CATACOMBS.getLevelInfo(load.member().dungeons.dungeonInfo.catacombs.experience);
 			}
 
-			skills.add(new BarWidget(skill.getName(), skill.getIcon(), levelInfo, OptionalInt.empty(), max));
+			skillsWidgets.add(new BarWidget(skill.getName(), skill.getIcon(), levelInfo, OptionalInt.empty(), max));
 		}
 
-		int i = 0;
-		for (var skill : skills) {
-			int x = i < 6 ? 88 : 88 + 113;
-			int y = (i % 6) * (2 + 26);
-			i++;
-			widgets.add(widget(
-					x, y, skill
-			));
+		int skillIndex = 0;
+		int defaultSkillX = calculateX();
+		for (var widget : skillsWidgets) {
+			int x = (skillIndex < 6 ? 0 : widget.getWidth() + ProfileViewerScreenRework.GAP) + ProfileViewerScreenRework.GAP;
+			int y = (skillIndex % 6) * (2 + widget.getHeight());
+			widgets.add(widget(defaultSkillX + x, y, widget));
+			skillIndex++;
 		}
-		widgets.add(widget(0, 0, new EntityViewerWidget(load.mainMemberId())));
-		widgets.add(widget(0, 112, new PlayerMetaWidget(load)));
 	}
 
 	@Init
